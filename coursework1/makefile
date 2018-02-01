@@ -1,4 +1,4 @@
-part1:
+all:
 	mkdir -p output
 	rm -rf output/DAPIResults01.txt
 	python src/DAPICoursework01.py
