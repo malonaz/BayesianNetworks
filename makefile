@@ -1,10 +1,11 @@
 part1:
-	rm -rf DAPIResults01.txt
-	python DAPICoursework01.py
-	cat DAPIResults01.txt
+	rm -rf output/DAPIResults01.txt
+	python src/DAPICoursework01.py
+	cat output/DAPIResults01.txt
 
 
-part2:
-	rm -rf DAPIResults02.txt
-	python DAPICoursework01.py
-	cat DAPIResults02.txt
+.PHONY: clean
+
+
+clean:
+	rm -rf src/*.pyc* output/DAPIResults01.txt
