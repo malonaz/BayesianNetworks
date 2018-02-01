@@ -282,67 +282,13 @@ def find_path(graph, source, goal):
 
 
 ################################## MAIN PROGRAM ######################################
-def partI():
-    # we will write to this file
-    output_filename = "DAPIResults01.txt"
-
-    # we will take our input from this file
-    input_filename = "Neurones.txt"
-    
-    # read file
-    noVariables, noRoots, noStates, noDataPoints, datain = ReadFile(input_filename)
-    theData = array(datain)
-    
-    ###### 1. A title giving my group number (just me)
-    AppendString(output_filename, "Coursework Part 1 Results by Malon AZRIA\n")
-    
-    ###### 2. The prior probability distribution of node 0 in the data set
-    AppendString(output_filename,"The prior probability of node 0")
-    prior = Prior(theData, 0, noStates)
-    AppendList(output_filename, prior)
-    
-    ###### 3. The conditional probability matrix P(2|0) calculated from the data
-    AppendString(output_filename, "The conditional probability of P(2|0)")
-    cpt = CPT(theData, 2, 0, noStates)
-    AppendArray(output_filename, cpt)
-    
-    ###### 4. The joint probability matrix P(2&0) calculated from the data
-    AppendString(output_filename, "The joint probability of P(2&0)")
-    jpt = JPT(theData, 2, 0, noStates)
-    AppendArray(output_filename, jpt)
-    
-    ###### 5. The conditional probability matrix P(2|0) calculated from the joint probability matrix P(2&0)
-    AppendString(output_filename, "The joint probability of P(2|0) calculated from the joint probability matrix P(2&0)")
-    cpt = JPT2CPT(jpt)
-    AppendArray(output_filename, cpt)
-    
-    ###### 6. The results of queries [4, 0, 0, 0, 5] and [6, 5, 2, 5, 5] on the naive network
-    # Construct naiveBayes, starting by adding prior to it.
-    naiveBayes = [prior]
-    
-    # iterate through all variables except root
-    for i in range(1, noVariables):
-        # append the P(i|0) to naiveBayes
-        naiveBayes.append(CPT(theData, i, 0, noStates))
-        
-    # carry out first query
-    AppendString(output_filename, "The results of query [4, 0, 0, 0, 5] on the naive network")
-    rootpdf = Query([4, 0, 0, 0, 5], naiveBayes)
-    AppendList(output_filename, rootpdf)
-    
-    # carry out second query
-    AppendString(output_filename, "The results of query [6, 5, 2, 5, 5] on the naive network")
-    rootpdf = Query([6, 5, 2, 5, 5], naiveBayes)
-    AppendList(output_filename, rootpdf)
-    
-####################################################################################
 
 def partII():
      # we will write to this file
-    output_filename = "DAPIResults02.txt"
+    output_filename = "output/DAPIResults02.txt"
 
     # we will take our input from this file
-    input_filename = "HepatitisC.txt"
+    input_filename = "data/HepatitisC.txt"
 
     noVariables, noRoots, noStates, noDataPoints, datain = ReadFile(input_filename)
     theData = array(datain)
@@ -366,5 +312,4 @@ def partII():
     AppendArray(output_filename, spanning_tree)
     
     
-#partI()    
 partII()
