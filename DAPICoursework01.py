@@ -178,7 +178,7 @@ def DependencyMatrix(theData, noVariables, noStates):
     MIMatrix = zeros((noVariables,noVariables))
 
     for i in range(noVariables):
-        for j in range(i + 1, noVariables):
+        for j in range(0, noVariables):
             
             # get the joint probability table for vars i and j
             jpt = JPT(theData, i, j, noStates)
@@ -208,18 +208,76 @@ def DependencyList(depMatrix):
         
     # sort by dependency
     depList.sort(key = lambda (dependency, node1, node2): dependency, reverse = True)
-    
+
     return array(depList)
 
 
 ############# QUESTION 4
+
 # Functions implementing the spanning tree algorithm
 def SpanningTreeAlgorithm(depList, noVariables):
+    # will be used to store the spanningTree
     spanningTree = []
-  
+
+    # we will build a graph as we go, always checking that we are not adding loops
+    graph = {}
+    
+    for dependency, node1, node2 in depList:
+
+        # we only add an arc if it does not create a loop
+        if not find_path(graph, node1, node2):
+
+            # update graph
+            if node1 in graph:
+                graph[node1].append(node2)
+            else:
+                graph[node1] = [node2]
+
+            if node2 in graph:
+                graph[node2].append(node1)
+            else:
+                graph[node2] = [node1]
+                            
+            spanningTree.append([dependency, node1, node2])
+    
     return array(spanningTree)
 
 
+# helper function that returns true if there is a path from source to goal
+def find_path(graph, source, goal):
+
+    # used to store the breadth-first search's agenda
+    agenda = [source]
+
+    # keeps track of already visited nodes
+    visited = []
+
+    
+    while len(agenda) != 0:
+
+        # pop first node
+        current_node = agenda.pop(0)
+
+        # check if this node is in the graph
+        if current_node not in graph:
+            return False
+        
+        # make sure we have not viside this node
+        if current_node in visited:
+            continue
+
+        # add node to visited
+        visited.append(current_node)
+
+        # check if current_node is goal node
+        if current_node == goal:
+            return True
+        
+        # add all its children if it is in th
+        for node in graph[current_node]:
+            agenda.append(node)
+
+    return False
 
 
 
@@ -303,8 +361,10 @@ def partII():
     AppendArray(output_filename, dep_list)
 
     ###### 4. The spanning tree found for the HepatitisC data set
+    spanning_tree = SpanningTreeAlgorithm(dep_list, noVariables)
+    AppendString(output_filename,"The spanning tree found for the HepatitisC data set")
+    AppendArray(output_filename, spanning_tree)
     
-
     
-partI()    
+#partI()    
 partII()
