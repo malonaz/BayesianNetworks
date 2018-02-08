@@ -178,7 +178,7 @@ def DependencyMatrix(theData, noVariables, noStates):
     MIMatrix = zeros((noVariables,noVariables))
 
     for i in range(noVariables):
-        for j in range(0, noVariables):
+        for j in range(i + 1, noVariables):
             
             # get the joint probability table for vars i and j
             jpt = JPT(theData, i, j, noStates)
